@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
  * 1780번 종이의 개수
  * @author shuai
  * 다시 풀이 필요
+ * 스트링토커나이저와 버퍼드리더 사용법을 좀 더 숙지해보자. trim 이나 split으로 가공할 필요 없다.
  */
 public class BK1780 {
 
