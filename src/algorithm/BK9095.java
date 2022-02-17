@@ -32,17 +32,20 @@ public class BK9095 {
 //		}
 
 		int r = 1;
-		while (r != 0) {
-			for (int i = 0; i <= n.length; i++) {
-				for (int j = 1; j <= 3; j++) {
-					while (r != 0) {
-						Solution(n[i], j);
-					}
-					s[i]++;
-				}
-
-			}
-		}
+//		while (r != 0) {
+//			for (int i = 0; i <= n.length; i++) {
+//				for (int j = 1; j <= 3; j++) {
+//					while (r != 0) {
+//						Solution(n[i], j);
+//					}
+//					s[i]++;
+//				}
+//
+//			}
+//		}
+		
+//		n을 직접 나눠서 방법의 수를 구하면 시간이 너무 오래 걸린다. 그리고 굉장히 비효율적;;
+//		n이 1, 2, 3 일 때의 방법의 수를 넣고 그 이상의 수일 때는 (n-1) + (n-2) + (n-3) 의 방법의 수를 구하면 된다.
 		
 		for (int i : s) {
 			System.out.println(i);
