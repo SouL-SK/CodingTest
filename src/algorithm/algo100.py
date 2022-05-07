@@ -1,4 +1,4 @@
 n = int(input())
-while n != 0:
-    print(n)
+while n > 0:
     n -= 1
+    print(n)
