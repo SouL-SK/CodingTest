@@ -1,6 +1,7 @@
-key = 0
-while key == 0:
-    n = input()
-    if n == 'q':
-        key = 1
-    print(n)
+n = int(input())
+sum = 0
+count = 0
+while sum < n:
+    sum += count
+    count += 1
+print(count-1)
