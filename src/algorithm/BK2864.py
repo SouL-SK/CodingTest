@@ -1,7 +1,7 @@
-"""A = str(input())
-B = str(input())"""
+A = str(input())
+B = str(input())
 # 얘는 왜 str로 못감싸?
-A, B = input().split()
+#A, B = input().split()
 
 result = [0, 0]
 
@@ -21,7 +21,7 @@ for i in range(len(A)):
         
 
 
-"""for i in range(len(B)):
+for i in range(len(B)):
     if B[i] == 5 or 6:
         B[i] = 5
 result[0] = A + B
@@ -34,6 +34,6 @@ for i in range(len(A)):
 for i in range(len(B)):
     if B[i] == 5 or 6:
         B[i] = 6
-"""
+
 result[1] = A + B
 print(result)
