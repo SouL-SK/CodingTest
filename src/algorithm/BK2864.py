@@ -1,3 +1,4 @@
+"""
 A = str(input())
 B = str(input())
 # 얘는 왜 str로 못감싸?
@@ -37,3 +38,9 @@ for i in range(len(B)):
 
 result[1] = A + B
 print(result)
+"""
+#2트
+a, b = input().split()
+min = int(a.replace('6', '5')) + int(b.replace('6', '5'))
+max = int(a.replace('5', '6')) + int(b.replace('5', '6'))
+print(min, max)
