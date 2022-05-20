@@ -8,7 +8,6 @@ import java.util.Scanner;
  */
 public class BK10870 {
 
-<<<<<<< HEAD
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
@@ -22,34 +21,17 @@ public class BK10870 {
 	}
 
 	static int Solution(int n) {
-//		if (n == 0) {
-//			return 0;
-//		}
-//		if (n == 1) {
-//			return 1;
-//		}
-		if (n <= 1) {
-			return n;
-		} else {
-			return Solution(n - 1) + Solution(n - 2);
-		}
-	}
-=======
-	int Solution(int n) {
 		if (n == 0) {
 			return 0;
 		}
 		if (n == 1) {
 			return 1;
 		}
-		return Solution(n - 1) + Solution(n - 2);
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		if (n <= 1) {
+			return n;
+		} else {
+			return Solution(n - 1) + Solution(n - 2);
+		}
 	}
-
-
-} 
->>>>>>> d59b9e8b4d6f05cc7a19d609e781b68cf893218a
 
 }
