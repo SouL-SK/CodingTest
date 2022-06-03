@@ -15,7 +15,7 @@ public class BK10707 {
 			result = B;
 		}else {
 			for(int i = 0; i <= P-C;i++ ) {
-				result += D
+				result += D;
 			}
 		}
 		if((P*A)<result){
