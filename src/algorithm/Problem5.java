@@ -10,7 +10,7 @@ package algorithm;
  */
 import java.util.*;
 
-public class problem5{
+public class Problem5 {
     public static void main(String[] args){
 
         //object declaration
@@ -50,8 +50,8 @@ public class problem5{
 
     /**
      * check number is prime number or not
-     * @param number to check
-     * @return true(number is prime number), false(number is not prime number)
+     * @param number number to check
+     * @return number is prime number or not
      */
     static boolean isPrime(int number){
         // the number must be >= 2
