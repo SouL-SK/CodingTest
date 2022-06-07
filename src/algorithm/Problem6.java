@@ -24,15 +24,15 @@ public class Problem6 {
         String[] readArtcle = new String[] {"목록", "조회", "리스트", "테이블", "읽기"};
         String[] exitSystem = new String[] {"종료", "로그아웃", "셧다운", "파워오프"};
         HashMap<Integer, Article> articleList = new HashMap<>();
-
+        Scanner sc = new Scanner(System.in);
         // variable declaration
-        String cmdStr;
+        String cmdStr = null;
 
         // article. gettitle
 
         // input command line
-        try(Scanner sc = new Scanner(System.in)){
-            do {
+        do {
+            try{
                 System.out.print("명령어) ");
                 cmdStr = sc.next();
 
@@ -53,14 +53,11 @@ public class Problem6 {
                         System.out.print(i+" / "+articleList.get(i).getArticleTitle()+"\n");
                     }
                 }
-            }
-            //check exit command
-            while (!checkCommand(cmdStr, exitSystem));
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally {
-            System.out.println("프로그램을 종료합니다.");
+            }catch(Exception e){}
         }
+        //check exit command
+        while (!checkCommand(cmdStr, exitSystem));
+        System.out.println("프로그램을 종료합니다.");
     }
 
     /**
