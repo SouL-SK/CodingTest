@@ -1,7 +1,4 @@
 package algorithm_java;
-
-import java.util.Scanner;
-
 /*
     문제 : 백준 10430번 나머지
     설명 : (A+B)%C는 ((A%C) + (B%C))%C 와 같을까?
@@ -11,6 +8,7 @@ import java.util.Scanner;
         - 단순 연산 문제기에 연산 로직에 신경을 쓰자
 
  */
+import java.util.Scanner;
 public class BK10430 {
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
@@ -18,6 +16,10 @@ public class BK10430 {
         int B = sc.nextInt();
         int C = sc.nextInt();
 
-        System.out.print((A+B)%C + ((A%C) + (B%C))%C;);
+        System.out.println((A+B)%C);
+        System.out.println(((A%C) + (B%C))%C);
+        System.out.println((A*B)%C);
+        System.out.println(((A%C)*(B%C))%C);
+        sc.close();
     }
 }
