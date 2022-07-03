@@ -22,6 +22,7 @@ public class BK11720 {
         for (int i = 0; i < temp;i++){
             sum += br.read() - 48;
         }
+        br.close();
         System.out.print(sum);
     }
 }

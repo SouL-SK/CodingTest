@@ -9,7 +9,11 @@ package algorithm_java;
         - 1 ≤ x ≤ w-1
         - 1 ≤ y ≤ h-1
         - x, y, w, h는 정수
-        -
+        - 왼쪽 아래 꼭짓점은 (0, 0)이고 오른쪽 위 꼭짓점은 (w, h)이다.
+        - 왼쪽 위 꼭짓점은 (0, h) 이고 오른쪽 아래 꼭짓점은 (x, 0)이다.
+        - x와 y는 무조건 w, h 보다 작기 때문에 w-x와 h-y 의 좌표에서 거리를 구하면 된다.
+        - 둘 중에 더 작은 값을 출력하면 된다.
+        - 시간 복잡도는 O(1)
  */
 
 import java.util.Scanner;
@@ -21,7 +25,20 @@ public class BK1085 {
         int y = sc.nextInt();
         int w = sc.nextInt();
         int h = sc.nextInt();
+        int[] compareValueList = new int[4];
+        compareValueList[0] = x;
+        compareValueList[1] = y;
+        compareValueList[2] = w-x;
+        compareValueList[3] = h-y;
+        int result = compareValueList[0];
 
+        for(int i = 0; i < compareValueList.length; i++){
+            if(result >= compareValueList[i]){
+                result = compareValueList[i];
+            }
+        }
+        System.out.print(result);
+        sc.close();
 
     }
 }
