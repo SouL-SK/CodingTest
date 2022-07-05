@@ -9,6 +9,10 @@ package algorithm_java;
         - 아름이가 나누어 줄 수 있는 경우를 모두 출력해야 하며,
         각 경우마다 친구의 수, 사과 개수, 바나나 개수 차례로 한 줄에 각각 빈칸으로 구분하여 출력한다.
         각 경우마다 중복없이 한 번만 출력되어야 하며, 경우의 순서는 친구의 수가 증가하는 순으로 한다.
+        - foreach 문이랑 for 문으로 출력하는 차이를 알아야 함. > ArrayList를 foreach 문으로 출력하니 안됨.
+        틀린 이유 : System.out.println(list.get(i)+ " " + (A / list.get(i) + " " + (B / list.get(i))));
+        정정 :  System.out.println(integer + " " + (A / integer + " " + (B / integer)));
+        단순 문법 오류였다. ㅋㅋ
  */
 
 import java.util.ArrayList;
@@ -26,18 +30,15 @@ public class BK14914 {
         int A = Integer.parseInt(st.nextToken());
         int B = Integer.parseInt(st.nextToken());
         ArrayList<Integer> list = new ArrayList<>();
-        if(A % B == 0){
-            list.add(A);
-            list.add(B);
-        }
+
         //두 수중 큰 수까지만 반복하는 반복문
         for (int i = 1; i <= Math.max(A, B); i++) {
             if (A % i == 0 && B % i == 0) {
                 list.add(i);
             }
         }
-        for(int i : list){
-            System.out.println(list.get(i)+ " " + (A / list.get(i) + " " + (B / list.get(i))));
+        for (Integer integer : list) {
+            System.out.println(integer + " " + (A / integer + " " + (B / integer)));
         }
     }
 }
