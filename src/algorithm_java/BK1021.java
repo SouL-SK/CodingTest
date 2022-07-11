@@ -22,6 +22,7 @@ package algorithm_java;
         - 문제점이 있었다. 양 옆으로 빼기만 하면 되는 것이었는데 나는 앞으로만 보내곤 했던 것이다. 양방향으로 나갈 수 있다는 사실을 잊지 말자!
         - 문제점이 하나 더 있었다. ArrayDeque 로는 pivot을 제대로 다루기 어려웠고, target 값이 어디 있는지 찾기 어려웠다.
         결국 LinkedList를 사용해야 한다는 점을 참고하고 다시 진행했다.
+        - time complexity : O(N^2), elapsed time : 124 ms, memory : 14228 kb
  */
 
 //import java.util.ArrayDeque;
@@ -32,7 +33,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class BK1021_ing {
+public class BK1021 {
     static BufferedReader br;
     static StringTokenizer st;
     static int N;
@@ -54,21 +55,50 @@ public class BK1021_ing {
         for (int i = 1; i <= N; i++) {
             deque.add(i);
         }
+
 //        int pivot = 0;
         cnt = 0;
         for (int i = 0; i < M; i++) {
-            if (check(temp[i])) {
-                while (temp[i] != deque.get(0)) {
-                    deque.addLast(deque.pollFirst());
+            // 뽑을 숫자의 위치(index) 찾기
+            int target_idx = deque.indexOf(temp[i]);
+            int half_idx;
+            /*
+                만약 현재 덱의 원소가 짝수 개라면 중간 지점을 현재 덱의 절반 크기에서 -1 감소 시킨다.
+                (1, 2, 3, 4) 일 때, 2를 중간 지점으로 하면 index = 1
+             */
+            if (deque.size() % 2 == 0) {
+                half_idx = deque.size() / 2 - 1;
+            } else {
+                half_idx = deque.size() / 2;
+            }
+            // 중간 지점 또는 중간 지점보다 원소의 위치가 앞에 있을 경우
+            if(target_idx <= half_idx){
+                // index의 위치보다 앞에 있는 원소들을 뒤로 보낸다. (2번 연산)
+                for(int j = 0;j < target_idx; j++){
+                    int tp = deque.pollFirst();
+                    deque.offerLast(tp);
                     cnt++;
                 }
-            } else {
-                while (temp[i] != deque.get(0)) {
-                    deque.addFirst(deque.pollLast());
+            }else{
+                for(int j = 0;j < deque.size() - target_idx;j++){
+                    int st = deque.pollLast();
+                    deque.offerFirst(st);
                     cnt++;
                 }
             }
-            deque.poll();
+            deque.pollFirst();
+//            if (check(temp[i])) {
+//                while (temp[i] != deque.get(0)) {
+//                    deque.addLast(deque.pollFirst());
+//                    cnt++;
+//                }
+//            } else {
+//                while (temp[i] != deque.get(0)) {
+//                    deque.addFirst(deque.pollLast());
+//                    cnt++;
+//                }
+//            }
+//            deque.poll();
 //            while (true) {
 //                if (temp > pivot) {
 //                    while (true) {
@@ -102,12 +132,12 @@ public class BK1021_ing {
         System.out.print(cnt);
     }
 
-    public static boolean check(int a) {
-        for (int i = 0; i <= deque.size() / 2; i++) {
-            if (a == deque.get(i)) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public static boolean check(int a) {
+//        for (int i = 0; i <= deque.size() / 2; i++) {
+//            if (a == deque.get(i)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 }

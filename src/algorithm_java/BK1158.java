@@ -15,51 +15,67 @@ package algorithm_java;
         - index를 이용하여 해당되는 사람을 제거해야 하기 때문에 deque는 안된다. linkedList나 Array를 사용하는 것이 좋을 것 같다.
         - 사람들이 제거되는 순서에 맞춰서 저장을 해야 하기 때문에 따로 이 순서를 Array에 저장한다.
         - 해당 index가 제거되면 저절로 index가 줄어들어 모든 data가 앞으로 이동해줘야 하기 때문에 ArrayList가 나을 것 같다.
-        - index는 제거할 인덱스 값, rear는 array의 사이
+        - index는 제거할 인덱스 값, rear는 array의 size() 값을 가져온다. 물론 짝수 값이면 / 2 - 1 을 해준다.
+        - 재시도 후, 알고리즘 검색을 통해 linkedList를 사용한다는 사실을 확인, Array 에서 linkedList 로 다시 진행하기로 결정.
+        - 1 ~ N 까지 queue에 offer 한다.
+        K -1 번째까지는 첫 번째 값을 맨 뒤로 보낸다.
+        K번째 일때는 poll 해서 출력한다.
+        queue의 사이즈가 1개일 때까지 반복한다. (Queue의 요소가 1개면 바로 빼서 출력한다.)
+
+    conclusion :
+        너무 어렵게 생각했다. 아니면 내 구현력의 문제인 것 같다. 조금 차분히, 그리고 제대로 다시 진행해보자.
  */
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
-import java.util.ArrayList;
+//import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class BK1158 {
     static int N, K, rear;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        ArrayList<Integer> result;
+//        ArrayList<Integer> result;
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         StringBuilder sb = new StringBuilder();
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
-        result = new ArrayList<>();
-        int index = -1;
+//        result = new ArrayList<>();
+        LinkedList<Integer> result = new LinkedList<>();
+//        int index = -1;
         for (int i = 1; i <= N; i++) {
-            result.add(i);
+            result.offer(i);
         }
-        int cnt = 0;
-        while (!result.isEmpty()) {
-            index += K - cnt;
-            rear = result.size();
-            if(index == rear){
-                sb.append(result.get(index-1)).append(" ");
-                result.remove(index-1);
-                cnt = 0;
-                continue;
+//        int cnt = 0;
+        sb.append("<");
+        while (result.size() != 1) {
+            for(int i = 0;i < K -1 ; i++){
+                result.offer(result.poll());
             }
-            if (index > rear) {
-                index = index - rear;
-                sb.append(result.get(index)).append(" ");
-                result.remove(index);
-                continue;
-            }
-            sb.append(result.get(index)).append(" ");
-            result.remove(index);
-            rear--;
-            cnt++;
+            sb.append(result.poll()).append(", ");
+//            index += K - cnt;
+//            rear = result.size();
+//            if(index == rear){
+//                sb.append(result.get(index-1)).append(" ");
+//                result.remove(index-1);
+//                cnt = 0;
+//                continue;
+//            }
+//            if (index > rear) {
+//                index = index - rear;
+//                sb.append(result.get(index)).append(" ");
+//                result.remove(index);
+//                continue;
+//            }
+//            sb.append(result.get(index)).append(" ");
+//            result.remove(index);
+//            rear--;
+//            cnt++;
         }
+        sb.append(result.poll()).append(">");
         System.out.print(sb);
     }
 }
