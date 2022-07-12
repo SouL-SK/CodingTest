@@ -15,6 +15,50 @@ package algorithm_java;
         시작점부터 모든 정점들을 다 돌리기 시작하면 어떤 정점은 방문 배열에 들어가 있어 안돌아가는 정점이 있다.
         그러면 결국 DFS가 돌아간 정점만 세면 연결 요소의 개수를 구할 수 있다.
     conclusion :
+        - 채점 중에 계속 틀렸습니다가 뜬다. 어디서 잘못되었는지 모르겠다. << 1-base 문제여서 dfs 를 돌 때 int i = 1 ; i <= N 인것을 잘 생각했으면 되는 문제였다.ㄴ
  */
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
 public class BK11724 {
+    static int N, M;
+    static boolean[] visited;
+    static int[][] graph;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        graph = new int[N + 1][N + 1];
+        visited = new boolean[N + 1];
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            graph[x][y] = graph[y][x] = 1;
+        }
+        int result = 0;
+        for (int i = 1; i <= N; i++) { // 지금 이 문제는 1-base 니까 index 구성을 잘 짜야 한다.
+            if (!visited[i]) {
+                dfs(i);
+                result++;
+            }
+        }
+        System.out.print(result);
+    }
+
+    public static void dfs(int index) {
+        if (!visited[index]) {
+            visited[index] = true;
+            for (int i = 1; i <= N; i++) {
+                if (graph[index][i] == 1) {
+                    dfs(i);
+                }
+            }
+        }
+    }
 }
