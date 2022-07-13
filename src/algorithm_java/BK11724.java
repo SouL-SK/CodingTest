@@ -1,7 +1,7 @@
 package algorithm_java;
 /*
-    problem :
-    task :
+    problem : baekjoon NO.11724
+    task : 방향 없는 그래프가 주어졌을 때, 연결 요소 (Connected Component)의 개수를 구하는 프로그램을 작성하시오.
     point :
         - 그래프를 사용한다. array로 선언해도 좋고, linkedList로 선언해도 좋다.
         - 여기서는 array를 사용해서 받는 값을 그대로 array index에 넣어 array 값만 true로 만들어준다. 무방향이기 때문에 반대 방향도 true로 바꿔야 한다.
@@ -15,7 +15,7 @@ package algorithm_java;
         시작점부터 모든 정점들을 다 돌리기 시작하면 어떤 정점은 방문 배열에 들어가 있어 안돌아가는 정점이 있다.
         그러면 결국 DFS가 돌아간 정점만 세면 연결 요소의 개수를 구할 수 있다.
     conclusion :
-        - 채점 중에 계속 틀렸습니다가 뜬다. 어디서 잘못되었는지 모르겠다. << 1-base 문제여서 dfs 를 돌 때 int i = 1 ; i <= N 인것을 잘 생각했으면 되는 문제였다.ㄴ
+        - 채점 중에 계속 틀렸습니다가 뜬다. 어디서 잘못되었는지 모르겠다. << 1-base 문제여서 dfs 를 돌 때 int i = 1 ; i <= N 인것을 잘 생각했으면 되는 문제였다.
  */
 
 import java.io.BufferedReader;
