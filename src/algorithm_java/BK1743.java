@@ -17,6 +17,7 @@ package algorithm_java;
         - dx, dy를 적극 이용하자.
         - 처음 시작 위치를 어떻게 잡아야 할지 몰라 구글링 시도. < 음식물의 위치를 먼저 찾은 뒤에, 사방 탐색 시행해야 한다.
     explain :
+        - 내일 다시 도전하자. bfs가 제대로 전체를 다 돌지 못하는 것이 분명하다.
     conclusion :
  */
 
@@ -26,17 +27,20 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class BK1743 {
-    static int result = 0;
+    static int count = 1;
     static int n, m;
+    static int[][] map;
+    static boolean[][] visited;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        ArrayList<Integer> list = new ArrayList<>();
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
-        int[][] map = new int[n + 1][m + 1];
-        boolean[][] visited = new boolean[n + 1][m + 1];
+        map = new int[n + 1][m + 1];
+        visited = new boolean[n + 1][m + 1];
         for (int i = 0; i < k; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             int r = Integer.parseInt(st.nextToken());
@@ -46,8 +50,41 @@ public class BK1743 {
             }
             map[c][r] = 1;
         }
-        bfs(new int[]{0, 0}, map, visited); // 시작점이 1, 1 이기에 보지 않아도 되는 0, 0 부터는 백트래킹 기법을 적용. 가지치기 진행한다.
-        System.out.print(result);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if(!visited[i][j] && map[i][j] == 1){
+                    bfs(new int[] {i, j});
+                    count++;
+                    list.add(count);
+                    count = 1;
+                }
+            }
+        }
+        Collections.sort(list);
+        System.out.print(list.get(list.size()-1));
+    }
+
+    public static int bfs(int[] vertex) {
+        Queue<int[]> q = new LinkedList<>();
+        q.add(vertex);
+        int x = vertex[0];
+        int y = vertex[1];
+        visited[x][y] = true;
+        for (int i = 0; i < 4; i++) {
+            int[] dx = {1, -1, 0, 0};
+            int[] dy = {0, 0, 1, -1};
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (nx < n && nx >= 0 && ny < m && ny >= 0) {
+                if (!visited[nx][ny] && map[nx][ny] == 1) {
+                    q.add(new int[]{nx, ny});
+                    visited[nx][ny] = true;
+                    bfs(new int[]{nx, ny});
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
 //    public static void dfs(int[] vertex, int[][] map, boolean[][] visited) {
@@ -65,36 +102,4 @@ public class BK1743 {
 //        }
 //    }
 
-    public static void bfs(int[] vertex, int[][] map, boolean[][] visited) {
-        Queue<int[]> queue = new LinkedList<>();
-        ArrayList<Integer> list = new ArrayList<>();
-        int[] dx = new int[]{1, -1, 0, 0};
-        int[] dy = new int[]{0, 0, 1, -1};
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (map[i][j] == 1) {
-                    queue.add(new int[]{i, j});
-                    while (!queue.isEmpty()) {
-                        vertex = queue.poll();
-                        int x = vertex[0];
-                        int y = vertex[1];
-                        visited[x][y] = true;
-                        for (int k = 0; k < 4; k++) {
-                            int nx = x + dx[k];
-                            int ny = y + dy[k];
-
-                            if (!visited[nx][ny] && map[nx][ny] == 1) {
-                                queue.add(new int[]{nx, ny});
-                                visited[nx][ny] = true;
-                                result++;
-                            }
-                        }
-                    }
-                    list.add(result);
-                }
-            }
-        }
-        Collections.sort(list);
-        result = list.get(list.size()-1) + 1;
-    }
 }
