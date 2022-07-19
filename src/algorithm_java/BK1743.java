@@ -17,8 +17,12 @@ package algorithm_java;
         - dx, dy를 적극 이용하자.
         - 처음 시작 위치를 어떻게 잡아야 할지 몰라 구글링 시도. < 음식물의 위치를 먼저 찾은 뒤에, 사방 탐색 시행해야 한다.
     explain :
-        - 내일 다시 도전하자. bfs가 제대로 전체를 다 돌지 못하는 것이 분명하다.
+        - 내일 다시 도전하자. bfs가 제대로 전체를 다 돌지 못하는 것이 분명하다. << 전체는 다 돌지만 입력값 예외 처리에서 들어가야 할 값이 안들어간 상황 때문에 count가 너무 늘어났다.
+        - dfs 를 사용하면 된다! bfs도 괜찮다. 둘 다 사용하는 데에 능숙해지자.
+        - 1-base 와 0-base 두 가지 경우에서 bfs, dfs 사용에 능숙해지자
     conclusion :
+        이틀이나 걸렸지만 dfs 에 대해서 좀 더 공부가 되었다.
+        - elapsed time : 168 ms, memory : 16360 kb
  */
 
 import java.io.IOException;
@@ -27,7 +31,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class BK1743 {
-    static int count = 1;
+    static int count, result;
     static int n, m;
     static int[][] map;
     static boolean[][] visited;
@@ -45,61 +49,63 @@ public class BK1743 {
             st = new StringTokenizer(br.readLine(), " ");
             int r = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
-            if (r >= m || r < 0 || c >= n || c < 0) {
+//            여기서 넣어야 할 값을 넣지 못해 빈 공간이 생겼다!! ==n 과 ==m 일 때를 넣으면 안된다..
+//            예외 처리를 할 때는 확실히 하자! 아예 범위를 지정해 주고 그 안에서만 들어가게 하는 것도 방법이다.
+            if (r > n || r < 0 || c > m || c < 0) {
                 continue;
             }
-            map[c][r] = 1;
+            map[r][c] = 1;
         }
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if(!visited[i][j] && map[i][j] == 1){
-                    bfs(new int[] {i, j});
-                    count++;
-                    list.add(count);
-                    count = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (!visited[i][j] && map[i][j] == 1) {
+                    count = 0;
+                    dfs(new int[]{i, j});
+//                    count++;
+                    result = Math.max(count, result);
                 }
             }
         }
-        Collections.sort(list);
-        System.out.print(list.get(list.size()-1));
+        System.out.print(result);
     }
 
-    public static int bfs(int[] vertex) {
-        Queue<int[]> q = new LinkedList<>();
-        q.add(vertex);
-        int x = vertex[0];
-        int y = vertex[1];
-        visited[x][y] = true;
-        for (int i = 0; i < 4; i++) {
-            int[] dx = {1, -1, 0, 0};
-            int[] dy = {0, 0, 1, -1};
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            if (nx < n && nx >= 0 && ny < m && ny >= 0) {
-                if (!visited[nx][ny] && map[nx][ny] == 1) {
-                    q.add(new int[]{nx, ny});
-                    visited[nx][ny] = true;
-                    bfs(new int[]{nx, ny});
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
-//    public static void dfs(int[] vertex, int[][] map, boolean[][] visited) {
+//    public static int bfs(int[] vertex) {
+//        Queue<int[]> q = new LinkedList<>();
+//        q.add(vertex);
 //        int x = vertex[0];
 //        int y = vertex[1];
+//        count++;
 //        visited[x][y] = true;
-//        result++;
-//        for (int i = 0; i < map.length; i++) {
-//            for (int j = 0; j < map[0].length; j++) {
-//                if(map[i][j] == 1 && !visited[i][j]){
-//                    dfs(new int[]{i, j}, map, visited);
-//                    result++;
+//        for (int i = 0; i < 4; i++) {
+//            int[] dx = {1, -1, 0, 0};
+//            int[] dy = {0, 0, 1, -1};
+//            int nx = x + dx[i];
+//            int ny = y + dy[i];
+//            if (nx <= n && nx >= 0 && ny <= m && ny >= 0) {
+//                if (!visited[nx][ny] && map[nx][ny] == 1) {
+//                    q.add(new int[]{nx, ny});
+////                    visited[nx][ny] = true;
+//                    bfs(new int[]{nx, ny});
+////                    count++;
 //                }
 //            }
 //        }
+//        return count;
 //    }
 
+    public static void dfs(int[] vertex) {
+        int[] dx = {1, -1, 0, 0};
+        int[] dy = {0, 0, 1, -1};
+        int x = vertex[0];
+        int y = vertex[1];
+        visited[x][y] = true;
+        count++;
+        for (int k = 0; k < 4; k++) {
+            int nowx = x + dx[k];
+            int nowy = y + dy[k];
+            if ((1 <= nowx && nowx < n + 1) && (1 <= nowy && nowy < m + 1) && (map[nowx][nowy] == 1) && (!visited[nowx][nowy])) {
+                dfs(new int[] {nowx, nowy});
+            }
+        }
+    }
 }

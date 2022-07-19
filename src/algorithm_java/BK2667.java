@@ -18,6 +18,7 @@ package algorithm_java;
         - 단지 내에 있는 집의 개수는 오름차순으로 정렬해서 출력해야 하니 ArrayList로 선언하여 sort 를 진행한 후 출력해주었다.
     conclusion :
         이제야 좀 bfs 감이 오기 시작했다. while 문을 쓰기보다 재귀를 사용하도록 하자.
+        - elapsed time : 140 ms, memory : 14324 kb
  */
 
 import java.io.BufferedReader;
