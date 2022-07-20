@@ -31,11 +31,34 @@ import java.util.StringTokenizer;
 
 public class BK2840 {
     static int N, K;
+    static String[] q;
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        for(int i = 0 ; i < K ; i++){
-
+        N = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
+        StringBuilder sb = new StringBuilder();
+        q = new String[N+1];
+        for(int i = 0; i <= N ; i++){
+            q[i] = "?";
         }
+        for(int i = 0 ; i < K ; i++){
+            st = new StringTokenizer(br.readLine(), " ");
+            int s = Integer.parseInt(st.nextToken());
+            String ch = st.nextToken();
+            if (s < 0) {
+                s = N + s;
+            }
+            if(!q[s].equals("?")){
+                sb.append("!");
+            }
+            if(q[s].equals(ch)){
+                q[s] = "?";
+            }
+            q[s] = ch;
+        }
+
+        System.out.print(sb);
+
     }
 }
