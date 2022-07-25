@@ -29,17 +29,20 @@ package algorithm_java;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class BK2178 {
-    static int N, M;
+    static int N, M, cnt;
     static int[][] graph;
-    static int[][] visited;
+    static boolean[][] visited;
     //동 서 남 북
     static int[] dx = {1, -1, 0, 0};
     static int[] dy = {0, 0, 1, -1};
+
+    static Queue<int[]> q;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -47,43 +50,50 @@ public class BK2178 {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         graph = new int[N][M];
-        visited = new int[N][N];
+        visited = new boolean[N][M];
         for (int i = 0; i < N; i++) { // 0-base 인 것을 잊지 말자.
             String str = br.readLine();
             for (int j = 0; j < M; j++) {
                 graph[i][j] = Character.getNumericValue(str.charAt(j));
             }
         }
-        bfs();
+        cnt = 0;
+        int result = 0;
+//        for (int x = 0; x < N; x++) {
+//            for (int y = 0; y < M; y++) {
+        bfs(new int[]{0, 0});
+        result = cnt;
+//            }
+//        }
+        System.out.print(result);
     }
 
-    public static void bfs() {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{0, 0});
-        visited[0][0] = 1;
+    public static void bfs(int[] index) {
+        q = new ArrayDeque<>();
+        q.offer(index);
+        int x = index[0];
+        int y = index[1];
+        visited[x][y] = true;
 
-        while (!queue.isEmpty()) {
-            int[] here = queue.poll();
-            int x = here[0];
-            int y = here[1];
-
+        while (!q.isEmpty()) {
+            int[] temp = q.poll();
+            if ((x == N-1) && (y == M-1)) {
+                visited[x][y] = true;
+                cnt++;
+                return;
+            }
             for (int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
+                int nx = temp[0] + dx[i];
+                int ny = temp[1] + dy[i];
 
-                if (checkAdd(nx, ny)) {
-                    queue.add(new int[]{nx, ny});
-                    visited[nx][ny] = visited[x][y] + 1;
+                if ((0 <= nx && nx < N - 1) && (0 <= ny && ny < M - 1) && (!visited[nx][ny]) && (graph[nx][ny] == 1)) {
+                    visited[nx][ny] = true;
+                    cnt++;
+                    q.offer(new int[]{nx, ny});
                 }
             }
         }
-        System.out.print(visited[N - 1][M - 1]);
     }
 
-    public static boolean checkAdd(int x, int y) {
-        if (x < 1 || x > N-1 || y < 1 || y > M-1) return false;
-        if (visited[x][y] != 0 || graph[x][y] == 0) return false;
-        return true;
-    }
 }
 

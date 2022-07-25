@@ -24,6 +24,7 @@ package algorithm_java;
         위와 같은 상황이 발생하면 '!'를 출력하고 끝내야 합니다. 그런 경우가 없다면 문제에서 요구하는 대로 바퀴에 적힌 글자들을 출력하면 됩니다.
     conclusion :
  */
+
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,32 +33,43 @@ import java.util.StringTokenizer;
 public class BK2840 {
     static int N, K;
     static String[] q;
-    public static void main(String[] args) throws IOException{
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
         StringBuilder sb = new StringBuilder();
-        q = new String[N+1];
-        for(int i = 0; i <= N ; i++){
+        q = new String[N];
+        for (int i = 0; i < q.length; i++) {
             q[i] = "?";
         }
-        for(int i = 0 ; i < K ; i++){
+        int index =0;
+        label1:
+        for (int i = 0; i < K; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             int s = Integer.parseInt(st.nextToken());
             String ch = st.nextToken();
-            if (s < 0) {
-                s = N + s;
+            index += s;
+            while(index >= N){
+                index %= N;
             }
-            if(!q[s].equals("?")){
-                sb.append("!");
+            for(int j = 0; j < K ; j++ ){
+                if(q[j].equals(ch)){
+                    System.out.print("!");
+                    System.exit(0);
+                }
             }
-            if(q[s].equals(ch)){
-                q[s] = "?";
+            if (!q[index].equals("?")) {
+                System.out.print("!");
+                System.exit(0);
+            } else {
+                q[index] = ch;
             }
-            q[s] = ch;
         }
-
+        for (int i = 0; i < q.length; i++) {
+            sb.append(q[i]);
+        }
         System.out.print(sb);
 
     }
