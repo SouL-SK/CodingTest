@@ -22,55 +22,70 @@ package algorithm_java;
         1) 이전에 방문했던 위치에 다른 알파벳을 가리키고 있는 경우 (해당 인덱스에 '?'이 아닌 문자가 저장되어있는데 또 다른 문자가 저장된다고 하는 경우)
         2) 한번 등장했던 알파벳이 다른 위치에서도 등장하는 경우 (룰렛에 중복이 되는 문자가 있으면 안되는데 중복이 발생하는 경우)
         위와 같은 상황이 발생하면 '!'를 출력하고 끝내야 합니다. 그런 경우가 없다면 문제에서 요구하는 대로 바퀴에 적힌 글자들을 출력하면 됩니다.
+        두 번째 예제에서 인덱스 에러가 발생. < 절대값을 이용해주어야 한다. 라이브러리를 사용하거나 직접 구현하자.
+        - 출력 부분에서 %연산을 이용해 N번 돌려주어야 정답이다.
     conclusion :
  */
 
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.StringTokenizer;
-
+import java.util.*;
+import java.util.stream.*;
+import java.io.*;
+import java.math.*;
+import java.text.*;
 public class BK2840 {
     static int N, K;
-    static String[] q;
+    static char[] q;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
         StringBuilder sb = new StringBuilder();
-        q = new String[N];
-        for (int i = 0; i < q.length; i++) {
-            q[i] = "?";
-        }
-        int index =0;
-        label1:
+        q = new char[N];
+        Arrays.fill(q, '?');
+        int index = 0;
         for (int i = 0; i < K; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
+            st = new StringTokenizer(br.readLine());
             int s = Integer.parseInt(st.nextToken());
-            String ch = st.nextToken();
-            index += s;
-            while(index >= N){
-                index %= N;
+            char ch = st.nextToken().charAt(0);
+            index -= s % N; // 바퀴는 시계방향으로만 돌아간다 == 화살표 방향이 반시계방향으로 돈다.
+            if (index < 0) {
+                index += N; // 인덱스 에러를 방지하기 위해 절대값을 구해준다.
             }
-            for(int j = 0; j < K ; j++ ){
-                if(q[j].equals(ch)){
+//            while (index >= N) {
+//                index -= N;
+//            }
+            // 삽입 시에 같은 위치에 다른 문자가 입력으로 들어온 경우
+            if (q[index] != '?' && q[index] != ch) {
+                System.out.print("!");
+                return;
+            }
+            q[index] = ch;
+
+        }
+
+        // 삽입 과정 후에 중복 글자 제거하기
+        for (int i = 0; i < N; i++) {
+            for (int j = i + 1; j < N; j++) {
+                if (q[i] != '?' && q[i] != q[j]) {
                     System.out.print("!");
-                    System.exit(0);
+                    return;
                 }
             }
-            if (!q[index].equals("?")) {
-                System.out.print("!");
-                System.exit(0);
-            } else {
-                q[index] = ch;
-            }
         }
-        for (int i = 0; i < q.length; i++) {
-            sb.append(q[i]);
+        for (int i = 0; i < N; i++) {
+            sb.append(q[(i + index) % N]);
         }
         System.out.print(sb);
 
     }
+
+
+
 }

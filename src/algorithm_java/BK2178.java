@@ -22,20 +22,23 @@ package algorithm_java;
         - 벽이 하나도 없을 때를 먼저 생각해보면, (순서는 동남서북 방향으로 진행한다.)
         DFS는 크게 한 바퀴를 돌면서 진행한다. 절반을 다 돌았으면 위로 ㄹ 모양으로 올라간다.
         BFS는 파동이 번지는 모양과 같다.
+        - 인덱스 에러 << 1, 1 부터 시작해서 N, M 으로 끝나는 배열은 0, 0 으로 시작할 때는 N-1, M-1로 끝난다. 즉, x < N 이면 이미 N-1 까지 가는거니까 이를 혼동하지 말자.
+        - cnt를 사용하니 제일 작은 수를 구하기 힘들었다. 그래서 cnt를 2차원 배열로 선언하여 이동 거리를 보여주도록 한다.
     conclusion :
-        인덱스 에러 때문에 갈피를 못잡겠다. 나중에 다시 도전해보자
+        elapsed time : 144 ms, memory : 14516 kb, time complexity : O(N*M)
+        이동 거리를 넣는 방법을 잘 몰랐다. bfs 면 무조건 짧은 거리를 가져올 수 있다고 알고 있었는데 이 부분에 대해서 어떻게 구현 하는지 더 공부해야 겠다.
  */
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.ArrayDeque;
-import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class BK2178 {
-    static int N, M, cnt;
+    static int N, M;
+    static int[][] cnt;
     static int[][] graph;
     static boolean[][] visited;
     //동 서 남 북
@@ -50,22 +53,21 @@ public class BK2178 {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         graph = new int[N][M];
+        cnt = new int[N][M];
         visited = new boolean[N][M];
         for (int i = 0; i < N; i++) { // 0-base 인 것을 잊지 말자.
             String str = br.readLine();
             for (int j = 0; j < M; j++) {
                 graph[i][j] = Character.getNumericValue(str.charAt(j));
+                cnt[i][j] = -1; // cnt에 방문 기록을 넣기 위해 -1로 전부 초기화 해 주었다.
             }
         }
-        cnt = 0;
-        int result = 0;
 //        for (int x = 0; x < N; x++) {
 //            for (int y = 0; y < M; y++) {
         bfs(new int[]{0, 0});
-        result = cnt;
 //            }
 //        }
-        System.out.print(result);
+        System.out.print(cnt[N - 1][M - 1] + 1); // 마지막 칸까지 이동 거리에 추가 + 1
     }
 
     public static void bfs(int[] index) {
@@ -74,22 +76,23 @@ public class BK2178 {
         int x = index[0];
         int y = index[1];
         visited[x][y] = true;
-
+        cnt[0][0] = 0;
         while (!q.isEmpty()) {
             int[] temp = q.poll();
-            if ((x == N-1) && (y == M-1)) {
-                visited[x][y] = true;
-                cnt++;
-                return;
-            }
+            visited[temp[0]][temp[1]] = true;
+//            if ((temp[0] == N-1) && (temp[1] == M-1)) {
+//                visited[temp[0]][temp[1]] = true;
+//                cnt++;
+//                return;
+//            }
             for (int i = 0; i < 4; i++) {
                 int nx = temp[0] + dx[i];
                 int ny = temp[1] + dy[i];
 
-                if ((0 <= nx && nx < N - 1) && (0 <= ny && ny < M - 1) && (!visited[nx][ny]) && (graph[nx][ny] == 1)) {
-                    visited[nx][ny] = true;
-                    cnt++;
+                if ((0 <= nx && nx < N) && (0 <= ny && ny < M) && (!visited[nx][ny]) && (graph[nx][ny] == 1) && (cnt[nx][ny] == -1)) {
                     q.offer(new int[]{nx, ny});
+                    cnt[nx][ny] = cnt[temp[0]][temp[1]] + 1;
+                    visited[nx][ny] = true;
                 }
             }
         }
