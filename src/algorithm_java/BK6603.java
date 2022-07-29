@@ -10,7 +10,7 @@ package algorithm_java;
         - 백트래킹을 활용한 dfs 이다.
     explain :
     conclusion :
-        elapsed time : 376 ms, memory : 20512 kb, time complexity :
+        elapsed time : 376 ms, memory : 20512 kb
  */
 
 import java.io.BufferedReader;
