@@ -14,18 +14,51 @@ package algorithm_java;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class BK5567 {
     static int n, m;
 
+    static boolean[][] friendList;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
         m = Integer.parseInt(br.readLine());
+        friendList = new boolean[n+1][n+1];
         for (int i = 0; i < m; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            friendList[x][y] = true;
+            friendList[y][x] = true;
         }
+        System.out.print(solve());
+    }
+
+    public static int solve(){
+        Queue<int[]> q = new ArrayDeque<>();
+        int result = 0;
+        for (int i = 0; i < n + 1; i++) {
+            if (friendList[1][i]) {
+                q.add(new int[]{1, i});
+//                result++;
+//                friendList[1][i] = false;
+//                friendList[i][1] = false;
+            }
+        }
+        while (q.isEmpty()) {
+            int[] index = q.poll();
+            result++;
+            int x = index[0];
+            int y = index[1];
+            if (friendList[x][y]) {
+                result++;
+                friendList[x][y] = false;
+                friendList[y][x] = false;
+            }
+        }
+        return result;
     }
 }
