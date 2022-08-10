@@ -43,9 +43,9 @@ public class BK5567 {
         for (int i = 0; i < n + 1; i++) {
             if (friendList[1][i]) {
                 q.add(new int[]{1, i});
-//                result++;
-//                friendList[1][i] = false;
-//                friendList[i][1] = false;
+                result++;
+                friendList[1][i] = false;
+                friendList[i][1] = false;
             }
         }
         while (q.isEmpty()) {
