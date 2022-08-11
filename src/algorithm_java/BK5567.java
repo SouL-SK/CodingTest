@@ -8,57 +8,59 @@ package algorithm_java;
         다음 줄부터 m개 줄에는 친구 관계 ai bi가 주어진다. (1 ≤ ai < bi ≤ n) ai와 bi가 친구라는 뜻이며, bi와 ai도 친구관계이다.
         - 첫째 줄에 상근이의 결혼식에 초대하는 동기의 수를 출력한다.
     explain :
+        - 인접리스트와 dfs 를 이용해서 할 수 있다.
+        - 친구의 친구까지만 초대할 수 있기 때문에 depth 체크를 해야 한다.
+        - 인접 리스트 구현 시 양방향 그래프로 구현해야 한다.
     conclusion :
+        오랜만에 푸니까 완전 큰일 났다. 지금부터라도 3문제씩 좀 풀어보자. 백엔드 공부도 같이 하면서!
  */
 
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class BK5567 {
-    static int n, m;
-
-    static boolean[][] friendList;
+    static int n, m, answer = 0;
+    static int[][] friendList;
+    static boolean[] check;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
         m = Integer.parseInt(br.readLine());
-        friendList = new boolean[n+1][n+1];
+        List<Integer> list[] = new ArrayList[n+1];
+//        friendList = new int[n+1][n+1];
+        for (int i = 1; i < list.length; i++) {
+            list[i] = new ArrayList<>();
+        }
         for (int i = 0; i < m; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
-            friendList[x][y] = true;
-            friendList[y][x] = true;
+//            friendList[x][y] = y;
+//            friendList[y][x] = x;
+            list[x].add(y);
+            list[y].add(x);
         }
-        System.out.print(solve());
+        check = new boolean[n + 1];
+        check[1] = true;
+        dfs(1, list, 0);
+        for (int i = 2; i < check.length; i++) {
+            if (check[i]) {
+                answer++;
+            }
+        }
+        System.out.print(answer);
     }
 
-    public static int solve(){
-        Queue<int[]> q = new ArrayDeque<>();
-        int result = 0;
-        for (int i = 0; i < n + 1; i++) {
-            if (friendList[1][i]) {
-                q.add(new int[]{1, i});
-                result++;
-                friendList[1][i] = false;
-                friendList[i][1] = false;
-            }
+    public static void dfs(int x, List<Integer>[] list, int depth) {
+        if (depth == 2) {
+            return;
         }
-        while (q.isEmpty()) {
-            int[] index = q.poll();
-            result++;
-            int x = index[0];
-            int y = index[1];
-            if (friendList[x][y]) {
-                result++;
-                friendList[x][y] = false;
-                friendList[y][x] = false;
-            }
+        for (int i = 0; i < list[x].size(); i++) {
+            int next = list[x].get(i);
+            check[next] = true;
+            dfs(next, list, depth + 1);
         }
-        return result;
     }
 }
